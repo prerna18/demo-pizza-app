@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="lib/jquery-3.2.1.min.js"></script>
+    <script src="resources/menu.js"></script>
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+<link href="css/styles.css" rel="stylesheet" type="text/css">
+
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <title>Pizza Order</title>
+  </head>
+  <body>
+   <h1 id="code">Your Pizza Order</h1>
+<table class="table table-striped"> 
+<thead> <tr> <th>#</th> <th>Name</th> <th>Price</th> <th>Indigrients</th> <th>Qty</th> </tr> </thead> 
+<tbody> </tbody> 
+</table>
+<h3>Total Price: <label id="total">0</label></h3>
+Name*&nbsp;&nbsp;&nbsp;: <input type="text" id="custName"><br/><br/>
+Address*: <textarea rows="4" cols="50" id="custAddress">
+</textarea><br/>
+<select id="selCoupon" onchange="onDiscCoupCode()" class="btn btn-default">
+<option value="" disabled selected>Avail coupon</option>
+<option value="10">GET10</option>
+<option value="30">GET30</option>
+</select><br/>
+<input class="btn btn-default" type="button" value="Submit" onclick="onSubmit()">
+  </body>
+
+<script>
+	var jqxhr = $.getJSON( "server/pizzas.json", function() {
+	}).done(function(data) {
+		 var items = [];
+		 menu = data;
+  $.each( data, function( key, val ) {
+  items.push( "<tr><td>" + (key + 1) + "</td><td>" + val.name + "</td><td id='" + key + "_price'>" + val.price + "</td> <td id='" + key + "_ingredients'>" + val.ingredients + " </td> <td><select class='1-100'  id='" + key + "_qty' onchange='calculateTotal()'></select></td></tr>" );
+  });
+  $( items.toString() ).appendTo( "tbody" );
+   var select = $(".1-100");
+    for (i=0;i<=100;i++){
+        select.append($('<option></option>').val(i).html(i))
+    }
+	});
+</script>
+</html>
